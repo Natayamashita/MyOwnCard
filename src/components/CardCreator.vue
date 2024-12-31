@@ -2,13 +2,13 @@
     <div class="bg-slate-800 items-center flex flex-col text-black font-mono">
         <div class="w-2/4 m-1">
             <header class="bg-slate-300">
-                <h1>
+                <h1 class="default_padding">
                     Insert your new card informations
                 </h1>
             </header>
-            <main class="main_content grid grid-cols-1 grid-rows-3 gap-1">
+            <main class="main_content grid grid-cols-1 gap-1">
                 <div class="flex flex-col self-center bg-slate-300 border-y-2 border-black">
-                    <h3 class="text-left ml-2">
+                    <h3 class="text-left ml-2 default_padding">
                         Title:
                     </h3>
                     <form>
@@ -16,7 +16,7 @@
                     </form>
                 </div>
                 <div class="flex flex-col self-center bg-slate-300">
-                    <h3 class="text-left ml-2">
+                    <h3 class="text-left ml-2 default_padding">
                         Description:
                     </h3>
                     <form>
@@ -24,24 +24,33 @@
                     </form>
                 </div>
                 <div class="flex flex-col self-center bg-slate-300">
-                    <h3 class="text-left ml-2">
+                    <h3 class="text-left ml-2 default_padding">
                         Images:
                     </h3>
                     <input class="flex bg-slate-100 justify-center p-2" id="image_input" type="file" ref="imageInput" @change="handleFileChange" accept="image/*"/>
-                    <div v-for="item in imagesUrl" :key="item.id">
-                        <img :src="item" />
+                </div>
+                <div class="grid-cols-6 grid justify-items-center gap-4 w-full">
+                    <div v-for="item in imagesUrl" :key="item.id" class="p-0">
+                        <img :src="item" style="width: 100px; height: 100px"/>
                     </div>
                 </div>
                 <div class="flex flex-col self-center bg-slate-300">
-                    <h3 class="text-left ml-2">
+                    <h3 class="text-left ml-2 default_padding">
                         Features:
                     </h3>
-                    <button class="bg-slate-400">
-                        Add new feature
+                    <button class="bg-slate-400 default_padding" @click="addNewFeature">
+                        <div class="flex-row flex w-full">
+                            <svg style="width:50px; height:50px">
+                            </svg>
+                            Add new feature
+                        </div>
                     </button>
                 </div>
             </main>
-            <button class="bg-slate-950 w-full text-white" @click="create_card">
+            <div class="grid-cols-2 grid gap-2 p-4 no-hover" id="parentFeatures">
+                
+            </div>
+            <button class="bg-slate-950 w-full text-white default_padding" @click="create_card">
                 Create
             </button>
         </div>
@@ -51,6 +60,18 @@
 <script>
     export default {
         methods: {
+            async addNewFeature() {
+                const input = document.createElement("input");
+                const input2 = document.createElement("input");
+                input.classList.add('input_class');
+                input2.classList.add('input_class');
+                const parent = document.getElementById("parentFeatures");
+                parent.appendChild(input2);
+                parent.appendChild(input);
+                const feature_position = (parent.children.length /2);
+                console.log(feature_position);
+                // this.features.push();
+            },
             async handleFileChange(event) {
                 const file = event.target.files[0]; // Pega o primeiro arquivo selecionado
                 console.log(event.target.files[0])
@@ -96,20 +117,33 @@
         },
         data() {
                 return {
-                    imagesUrl: []
+                    imagesUrl: [],
+                    features: []
             };
         }
     }
 </script>
 
 <style>
-    .main_content{
-        display: block;
-    }
     textarea {
         padding-top: 0; /* Remove o padding superior */
         margin-top: 0; /* Remove a margem superior */
         white-space: pre-wrap; /* Garante que o texto não seja quebrado inesperadamente */
     }
-
+    img,video {
+        width: 100px;
+        height: 100px;
+    }
+    .main_content {
+        display: block;
+    }
+    .input_class { 
+        padding: 4px 8px;
+    }
+    *:focus {
+        outline: none;
+    }
+    .default_padding {
+        padding: 6px
+    }
 </style>
