@@ -4,7 +4,7 @@ import CardCreator from '../components/CardCreator.vue';
 
 const routes = [
   {
-    path: '/cards',
+    path: '/cards/display',
     name: 'Home',
     component: CardDisplay,
   },

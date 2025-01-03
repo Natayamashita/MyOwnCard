@@ -8,8 +8,8 @@
             </h1>
             <table class="w-full">
                 <tr class="flex justify-around" v-for="card_component of array_cards" :key="card_component.value">
-                    <td v-for="card of card_component.cards" :key="card">
-                        {{ card }}
+                    <td>
+                        {{ card_component }}
                     </td>
                 </tr>
             </table>
@@ -21,20 +21,29 @@
     // import cardData from '../services/managers/CardManager';
     // console.log(cardData)
     export default {
+        mounted() {
+            this.loadCards();
+        },
         data() {
             return {
-                array_cards: [
-                    {
-                        cards: [1, 2, 3]
-                    }, 
-                    {
-                        cards: [4, 5, 6]
-                    }
-                ]
+                array_cards: []
             }
         },
-        computed: {
-            // Computa as fileiras com 6 itens cada
-        }
+        methods: {
+            async loadCards() {
+                try {
+                    const { cards } = await fetch('http://localhost:3000/findCards', {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        }
+                    }).then(response => response.json());
+                    console.log(cards[0])
+                    this.array_cards = cards;
+                } catch(err) {
+                    console.log(err);
+                }
+            }
+        },
     }
 </script>

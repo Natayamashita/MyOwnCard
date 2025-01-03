@@ -14,7 +14,7 @@ const CardSchema = new mongoose.Schema({
         required: false
     },
     features: {
-        type: 'Object',
+        type: 'Array',
         required: false
     }
 });
