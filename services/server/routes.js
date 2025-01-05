@@ -3,6 +3,7 @@ module.exports = async function(app) {
     app.post('/createCard',(req,res) => {
         let { title, description, images, features } = req.body;  // Desestruturando os dados recebidos
         console.log('Card Title:', title);
+        console.log(`Teste`, req.body);
         console.log('Card Description:', description);
         console.log('Card Images: ', images)
         console.log('Card features: ', features)

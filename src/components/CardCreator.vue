@@ -117,15 +117,20 @@
                 
                 try {
                     console.log(inputs,'inputs')
-                    const request = new Request("http://localhost:3000/createCard", {
+                    const formData = new FormData();
+                    formData.append(`title`,card_title);
+                    formData.append(`description`,card_description);
+                    formData.append(`images`,this.imagesUrl);
+                    formData.append(`features`,features);
+                    console.log(formData)
+                    const data = new URLSearchParams(formData);
+                    const response = await fetch("http://localhost:3000/createCard", {
                         method: "POST",
                         headers: {
-                            "Content-Type": "application/json",
-                    },
-                        body: JSON.stringify({ title: card_title, description: card_description, images: this.imagesUrl, features: features })
+                            "Content-type": `application/x-www-form-urlencoded`
+                        },
+                        body: data
                     });
-
-                    const response = await fetch(request);
 
                     if (response.ok) {
                         const data = await response.json();

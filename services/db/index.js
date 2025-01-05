@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const port = 'mongodb://localhost:27017/card-creator';
+const port = 'mongodb://127.0.0.1:27017/card-creator';
 
 try {
     mongoose.connect(port);
