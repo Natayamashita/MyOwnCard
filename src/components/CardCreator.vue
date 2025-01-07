@@ -74,6 +74,7 @@
                 parent.appendChild(input2);
                 parent.appendChild(input);
             },
+
             async handleFileChange(event) {
                 const file = event.target.files[0]; // Pega o primeiro arquivo selecionado
                 if (file) {
@@ -82,6 +83,10 @@
                         this.imagesUrl.push(e.target.result); // Armazena a URL da imagem para exibição
                     };
                     reader.readAsDataURL(file);
+                }
+                if(this.imagesUrl.length === 11) {
+                    const image_input = document.getElementById('image_input');
+                    image_input.disabled = true;
                 }
             },
             async create_card() {
@@ -118,11 +123,16 @@
                 try {
                     console.log(inputs,'inputs')
                     const formData = new FormData();
+                    console.log(this.imagesUrl,'IMAGES')
+                    for(let i = 0; i < this.imagesUrl.length; i++) {
+                        formData.append(`images[${i}]`, this.imagesUrl[i])
+                    }
+                    if(this.imagesUrl.length === 0) {
+                        formData.append(`images[0]`,null);
+                    }
                     formData.append(`title`,card_title);
                     formData.append(`description`,card_description);
-                    formData.append(`images`,this.imagesUrl);
                     formData.append(`features`,features);
-                    console.log(formData)
                     const data = new URLSearchParams(formData);
                     const response = await fetch("http://localhost:3000/createCard", {
                         method: "POST",
