@@ -33,7 +33,10 @@
                     <h3 class="text-left ml-2 default_padding">
                         Images:
                     </h3>
-                    <input class="flex bg-slate-100 justify-center" id="image_input" type="file" ref="imageInput" @change="handleFileChange" accept="image/*"/>
+                    <label for="image_input" class="custom-file-upload">
+                        Insert your image card
+                    </label>
+                    <input class="flex bg-slate-100 justify-center p-4" id="image_input" type="file" ref="imageInput" @change="handleFileChange" accept="image/*"/>
                 </div>
                 <div class="grid-cols-6 grid justify-items-center gap-4 w-full">
                     <div v-for="item in imagesUrl" :key="item.id" class="p-0">
@@ -74,7 +77,6 @@
                 parent.appendChild(input2);
                 parent.appendChild(input);
             },
-
             async handleFileChange(event) {
                 const file = event.target.files[0]; // Pega o primeiro arquivo selecionado
                 if (file) {
@@ -173,6 +175,9 @@
         width: 100px;
         height: 100px;
     }
+    input[type="file"] {
+        display: none;
+    }
     span {
         color: red
     }
@@ -187,5 +192,12 @@
     }
     .default_padding {
         padding: 6px
+    }
+    .custom-file-upload {
+        border: 1px solid #ccc;
+        display: inline-block;
+        background-color: white;
+        padding: 6px 12px;
+        cursor: pointer;
     }
 </style>
