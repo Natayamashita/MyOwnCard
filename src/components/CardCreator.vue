@@ -82,6 +82,7 @@
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = (e) => {
+                        console.log(e.target.result)
                         this.imagesUrl.push(e.target.result); // Armazena a URL da imagem para exibição
                     };
                     reader.readAsDataURL(file);
@@ -110,9 +111,10 @@
                         mensagemErro.style.display = 'block';
                         return; 
                     } else {
-                        features.push(inputs[i].value[0])
+                        features.push(inputs[i].value)
                     }
                 }
+
                 if(card_title.trim() === '') {
                     nullTitle.style.display = 'block';
 
@@ -125,7 +127,7 @@
                 try {
                     console.log(inputs,'inputs')
                     const formData = new FormData();
-                    console.log(this.imagesUrl,'IMAGES')
+                    console.log(this.imagesUrl[0],'IMAGES')
                     for(let i = 0; i < this.imagesUrl.length; i++) {
                         formData.append(`images[${i}]`, this.imagesUrl[i])
                     }
