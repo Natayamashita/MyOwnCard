@@ -19,21 +19,23 @@
                             <img :src="image" class="h-96 w-auto">
                         </div>
                     </section>
-                    <block>
-                        {{ card_component.features[0] }}
+                    <block class="flex flex-col">
+                        <div v-for="feature of card_component.features[0]" :key="feature">
+                            {{ feature }}
+                        </div>
                     </block>
                 </div>
             </div>
             <div class="flex">
-                <arrow class="bg-white">
+                <arrow class="bg-white" @click="manageCardImageView(-1)" v-model="image_position" value=-1>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="arrow"><path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z"/></svg>
                 </arrow>
-                <section class="grow bg-black card-image-parent flex w-full">
+                <section id="card-image-parent" class="grow bg-black flex w-full">
                     <div class="gallery-cell grow" style="display:block;">1</div>
-                    <div class="gallery-cell hidden" style="">2</div>
-                    <div class="gallery-cell hidden" style="">3</div>
+                    <div class="gallery-cell grow" style="display:none">2</div>
+                    <div class="gallery-cell grow" style="display:none">3</div>
                 </section>
-                <arrow class="bg-white">
+                <arrow class="bg-white" @click="manageCardImageView(1)" v-model="image_position" value=1>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="arrow"><path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z"/></svg>
                 </arrow>
             </div>
@@ -49,7 +51,8 @@ export default {
     },
     data() {
         return {
-            array_cards: []
+            array_cards: [],
+            image_position: 0
         }
     },
     methods: {
@@ -76,9 +79,16 @@ export default {
             }
         },
 
-        async manageCardImageView() {
-            const card_image_parent = document.getElementById(`card-image-parent`).children;
-            console.log(card_image_parent)
+        async manageCardImageView(value) {
+            this.image_position += value;
+            const children = document.getElementById('card-image-parent').children;
+            for (let i = 0; i < children.length; i++) {
+                if (i === this.image_position) {
+                    children[i].style.display = 'block';
+                } else {
+                    children[i].style.display = 'none';
+                }
+            }
         }
     }
 }
