@@ -14,14 +14,22 @@
                     <h3>
                         {{ card_component.description }}
                     </h3>
-                    <section class="flex flex-row self-center">
+                    <section class="flex flex-row">
+                        <arrow class="bg-white" @click="manageCardImageView(-1)" v-model="image_position" value=-1>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="arrow"><path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z"/></svg>
+                        </arrow>
                         <div v-for="image of card_component.images" :key="image">
                             <img :src="image" class="h-96 w-auto">
                         </div>
+                        <arrow class="bg-white" @click="manageCardImageView(1)" v-model="image_position" value=1>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="arrow"><path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z"/></svg>
+                        </arrow>
                     </section>
                     <block class="flex flex-col">
-                        <div v-for="feature of card_component.features[0]" :key="feature">
-                            {{ feature }}
+                        <div class="grid grid-cols-2" v-for="feature of card_component.features[0]" :key="feature">
+                            <div v-for="(item, index) in splitFeatures(feature)" :key="index">
+                                {{ item }}
+                            </div>
                         </div>
                     </block>
                 </div>
@@ -56,6 +64,9 @@ export default {
         }
     },
     methods: {
+        splitFeatures(features) {
+            return features.split(",");
+        },
         async loadCards() {
             try {
                 let { cards } = await fetch('http://localhost:3000/findCards', {
@@ -99,11 +110,14 @@ export default {
         color: white;
         font-size: 0.875rem;
     }
-    .arrow:hover {
+    arrow:hover {
         cursor: pointer; 
     }
-    .arrow:active {
+    arrow:active {
         background-color: gray;
         transition: 0.3s;
+    }
+    arrow {
+        align-self: center;
     }
 </style>
